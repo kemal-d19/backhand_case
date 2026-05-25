@@ -75,7 +75,7 @@ The `strength` value must be a float between `0` and `1`.
 
 **Headers**
 
-```http
+http
 Content-Type: application/json
 ````
 
