@@ -244,7 +244,8 @@
 
 <script>
 // ── Config ────────────────────────────────────────────────
-function getBase() { return localStorage.getItem('league_base') || 'http://localhost:8080'; }
+//function getBase() { return localStorage.getItem('league_base') || 'http://localhost:8080'; }
+function getBase() { return localStorage.getItem('league_base') || 'http://13.62.101.164:8080'; }
 function changeBaseUrl() {
   const v = prompt('Backend base URL (no trailing slash):', getBase());
   if (v !== null) { localStorage.setItem('league_base', v.replace(/\/$/, '')); updatePill(); }
