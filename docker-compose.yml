@@ -1,0 +1,54 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: football_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: football_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d football_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: football_api
+    restart: always
+    ports:
+      - "8080:8080" # Maps local port 8080 to container port 8080
+    depends_on:
+      postgres:
+        condition: service_healthy # Ensures Go only starts AFTER DB is fully ready
+    environment:
+      - DB_HOST=postgres # Overrides or sets your DB host to the postgres container
+
+volumes:
+  postgres_data:
+
+
+
+#services:
+#   postgres:
+#     image: postgres:16
+#     container_name: football_postgres
+#     restart: always
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: password
+#       POSTGRES_DB: football_db
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+
+# volumes:
+#   postgres_data:
