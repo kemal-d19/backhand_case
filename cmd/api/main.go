@@ -36,12 +36,17 @@ func main() {
 	leagueService := service.NewLeqgueService(matchRepository, teamRepository)
 	legueHandler := handler.NewLeagueHandler(leagueService)
 
+	file_server := http.FileServer(http.Dir("./frontend"))
+	mux.Handle("/", file_server)
+
 	mux.HandleFunc("POST /team/create/", teamHandler.CreateTeam)
+	mux.HandleFunc("/team/get_by_id/", teamHandler.GetTeamByID)
 	mux.HandleFunc("/team/get_all", teamHandler.GetTeams)
 	mux.HandleFunc("/team/delete_all/", teamHandler.DeleteAll)
 
 	mux.HandleFunc("/match/generate/", matchHandler.GenerateMatches)
 	mux.HandleFunc("/match/get_all", matchHandler.GetAllMatches)
+	mux.HandleFunc("/match/update_result/", matchHandler.UpdateMatchResult)
 	mux.HandleFunc("/match/delete_all", matchHandler.DeleteAll)
 
 	mux.HandleFunc("/league/play_current_week/", legueHandler.PlayCurrentWeek)

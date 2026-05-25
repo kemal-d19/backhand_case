@@ -20,7 +20,7 @@ WORKDIR /app
 
 # Copy the binary from the builder stage
 COPY --from=builder /app/main .
-
+COPY --from=builder /app/frontend ./frontend
 # Copy the .env file into the container
 COPY .env .
 

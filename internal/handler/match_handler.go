@@ -10,6 +10,12 @@ import (
 	"insider_case/internal/service"
 )
 
+type UpdateMatchResultRequest struct {
+	HomeScore int  `json:"home_score"`
+	AwayScore int  `json:"away_score"`
+	IsPlayed  bool `json:"is_played"`
+}
+
 type MatchHandler struct {
 	matchService *service.MatchService
 }
@@ -69,6 +75,46 @@ func (h *MatchHandler) GetMatchByID(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
 	json.NewEncoder(w).Encode(match)
+}
+
+func (h *MatchHandler) UpdateMatchResult(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPut {
+		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	idStr := strings.TrimPrefix(r.URL.Path, "/match/update_result/")
+	matchID, err := strconv.Atoi(idStr)
+	if err != nil {
+		http.Error(w, "invalid match id", http.StatusBadRequest)
+		return
+	}
+
+	var req UpdateMatchResultRequest
+
+	err = json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		http.Error(w, "invalid request body", http.StatusBadRequest)
+		return
+	}
+
+	updatedMatch, err := h.matchService.UpdateMatchResult(
+		r.Context(),
+		matchID,
+		req.HomeScore,
+		req.AwayScore,
+		req.IsPlayed,
+	)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
+	json.NewEncoder(w).Encode(updatedMatch)
 }
 
 func (h *MatchHandler) GetAllMatches(w http.ResponseWriter, r *http.Request) {
