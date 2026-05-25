@@ -8,11 +8,6 @@ import (
 	"insider_case/internal/repository"
 )
 
-// type TeamService interface {
-// 	CreateTeam(ctx context.Context, team model.Team) (*model.Team, error)
-// 	GetTeams(ctx context.Context) ([]model.Team, error)
-// }
-
 type TeamService struct {
 	teamRepository *repository.TeamRepository
 }

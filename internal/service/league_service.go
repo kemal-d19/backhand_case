@@ -174,12 +174,6 @@ func (s *LeagueService) MonteCarloSimulation(ctx context.Context, unpred_coef fl
 		// Calculate table using played + simulated matches
 		resultTable := CalculateTable(allPlayedMatches, teams)
 
-		for k := 0; k < 3 && k < len(resultTable); k++ {
-			fmt.Printf("Team: %s, points: %d\n", resultTable[k].Team, resultTable[k].Points)
-		}
-
-		fmt.Println("----------------------------------")
-
 		for j := 0; j < len(WinCounts); j++ {
 			if WinCounts[j].Team == resultTable[0].Team {
 				WinCounts[j].Count++

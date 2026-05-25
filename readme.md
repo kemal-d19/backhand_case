@@ -45,10 +45,21 @@ The project uses **PostgreSQL** as the database and runs with **Docker / Docker 
 └── README.md
 ```
 
+#### Test the deployed project from this base url
+
+http://13.62.101.164:8080/  
+
+(Url may not be active later times.)
+
 ````markdown
 ## 4. API Endpoints
 
 This section describes the available API endpoints for teams, matches, and league simulation.
+
+---
+### Frontend page for testing api 
+
+`/`
 
 ---
 
@@ -109,6 +120,26 @@ Returns all teams as JSON.
     "name": "Fener",
     "strength": 0.7
   }
+]
+```
+
+---
+
+### Get Team By Id
+
+**GET** `/team/get_by_id/<id>`
+
+Returns all teams as JSON.
+
+**Example Response**
+
+```json
+[
+  {
+    "id": 4,
+    "name": "Galatasaray",
+    "strength": 0.8
+  },
 ]
 ```
 
@@ -203,7 +234,45 @@ Returns all match records.
   }
 ]
 ```
+---
 
+### Update Match Results
+**GET** `/match/get_all<match_id>`
+
+Update Match Results and returns resulting match status..
+
+**Headers**
+
+```http
+Content-Type: application/json
+```
+
+**Request Body**
+
+```json
+{
+  "home_score": 2,
+  "away_score": 1,
+  "is_played": true
+}
+```
+
+
+**Example Response**
+
+```json
+[
+  {
+    "id": 13,
+    "week_number": 1,
+    "home_team_id": 4,
+    "away_team_id": 5,
+    "home_score": 2,
+    "away_score": 1,
+    "is_played": true
+  }
+]
+```
 ---
 
 ### Delete All Matches
@@ -369,7 +438,4 @@ Content-Type: application/json
     "prediction": 5.8
   }
 ]
-```
-
-```
 ```

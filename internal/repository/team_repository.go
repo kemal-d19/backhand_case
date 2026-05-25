@@ -21,7 +21,6 @@ func (r *TeamRepository) Create(ctx context.Context, team model.Team) (*model.Te
 	INSERT INTO teams (name, strength)
 	VALUES ($1, $2)
 	RETURNING id, name, strength`
-	fmt.Printf(query, team.Name, team.Strength)
 	var createTeam model.Team
 
 	err := r.db.QueryRow(ctx, query, team.Name, team.Strength).Scan(
@@ -52,7 +51,6 @@ func (r *TeamRepository) GetAllTeams(ctx context.Context) ([]model.Team, error) 
 			&team.Name,
 			&team.Strength,
 		)
-		//fmt.Printf("Fetched row -> ID: %d, Name: %s, Strength: %d\n", team.ID, team.Name, team.Strength)
 		if err != nil {
 			return nil, err
 		}
