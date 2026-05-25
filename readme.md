@@ -77,8 +77,6 @@ The `strength` value must be a float between `0` and `1`.
 
 http
 Content-Type: application/json
-````
-
 **Request Body**
 
 ```json
@@ -438,4 +436,5 @@ Content-Type: application/json
     "prediction": 5.8
   }
 ]
+```
 ```
